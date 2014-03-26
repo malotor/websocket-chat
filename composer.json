@@ -1,8 +1,10 @@
 {
     "require": {
-			"cboden/Ratchet": "0.3.*"  
+			"cboden/Ratchet": "0.3.*",
+			"simpletest/simpletest": "1.1.5"   
     },
     "autoload": {
-        "psr-0": {"MyApp\\": "src/"}
+        "psr-0": {"GameServer\\": "src/"},
+        "psr-0": {"Game\\": "src/"}
     }
 }
