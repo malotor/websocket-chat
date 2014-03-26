@@ -1,10 +1,10 @@
 <?php
 
-namespace MyApp;
+namespace GameServer;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class Chat implements MessageComponentInterface {
+class Server implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
