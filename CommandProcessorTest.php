@@ -7,24 +7,38 @@ require 'vendor/simpletest/simpletest/autorun.php';
 
 class CommandProcessorTestCase extends UnitTestCase {
 	
-	
-
-
 	function setUp() {
-		$this->goodCharacter = new Game\Character();
-		$this->goodCharacter->setName("Aragorn");
+		
 	}
 
-	function testProcessSayCommand() {
+	function testSayAString() {
 		
-		$commandProcessor = new MyApp\CommandProcessor();
+		$commandProcessor = new GameServer\CommandProcessor();
 
 		$command = "say";
-		$firt_arg = "Hola Mundo";
+		$args[0] = "Manel";
+		$args[1] = "Hello";
 
-		$response = $commandProcessor->say("hola");
+		$response = $commandProcessor->exec($command,$args);
 
 
+		$this->assertEqual($response, 'Manel says: Hello');	
 
 	}
+
+	function testSayAnotherString() {
+		
+		$commandProcessor = new GameServer\CommandProcessor();
+
+		$command = "say";
+		$args[0] = "Pepe";
+		$args[1] = "Good bye";
+
+		$response = $commandProcessor->exec($command,$args);
+
+		$this->assertEqual($response, 'Pepe says: Good Bay');	
+
+	}
+
+
 }

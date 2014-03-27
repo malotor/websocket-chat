@@ -1,9 +1,9 @@
 <?php
 
-require './vendor/autoload.php';
+require '../vendor/autoload.php';
 
 
-require 'vendor/simpletest/simpletest/autorun.php';
+require '../vendor/simpletest/simpletest/autorun.php';
 
 class CharacterTestCase extends UnitTestCase {
 	
