@@ -1,13 +1,7 @@
 <?php
 
-require '../vendor/autoload.php';
 
-
-require '../vendor/simpletest/simpletest/autorun.php';
-
-
-
-class SayCommandTestCase extends UnitTestCase {
+class SayCommandTest extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		$this->goodCharacter = new Game\Character();
@@ -24,7 +18,7 @@ class SayCommandTestCase extends UnitTestCase {
 
 		$response = $command->execute();
 
-		$this->assertEqual($response, 'Aragorn says: Hello');	
+		$this->assertEquals($response, 'Aragorn says: Hello');	
 
 	}
 
@@ -35,7 +29,7 @@ class SayCommandTestCase extends UnitTestCase {
 
 		$response = $command->execute();
 
-		$this->assertEqual($response, 'Frodo says: Hello');	
+		$this->assertEquals($response, 'Frodo says: Hello');	
 
 	}
 
@@ -46,13 +40,13 @@ class SayCommandTestCase extends UnitTestCase {
 
 		$response = $command->execute();
 
-		$this->assertEqual($response, 'Aragorn says: Good bye');	
+		$this->assertEquals($response, 'Aragorn says: Good bye');	
 
 	}
 }
 
 
-class MoveCommandTestCase extends UnitTestCase {
+class MoveCommandTest extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		$this->goodCharacter = new Game\Character();
@@ -71,8 +65,8 @@ class MoveCommandTestCase extends UnitTestCase {
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 		
-		$this->assertEqual($charactePositionChordsX, 32);	
-		$this->assertEqual($charactePositionChordsY , 45);	
+		$this->assertEquals($charactePositionChordsX, 32);	
+		$this->assertEquals($charactePositionChordsY , 45);	
 	}
 
 	function testAnotherCharacterMoveToPoint() {
@@ -86,8 +80,8 @@ class MoveCommandTestCase extends UnitTestCase {
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 		
-		$this->assertEqual($charactePositionChordsX, 10);	
-		$this->assertEqual($charactePositionChordsY , 25);	
+		$this->assertEquals($charactePositionChordsX, 10);	
+		$this->assertEquals($charactePositionChordsY , 25);	
 	}
 
 

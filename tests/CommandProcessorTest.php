@@ -1,11 +1,7 @@
 <?php
 
-require '../vendor/autoload.php';
 
-
-require '../vendor/simpletest/simpletest/autorun.php';
-
-class CommandProcessorTestCase extends UnitTestCase {
+class CommandProcessorTestCase extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		$this->goodCharacter = new Game\Character();
@@ -25,7 +21,7 @@ class CommandProcessorTestCase extends UnitTestCase {
 
 		$response = GameServer\CommandProcessor::execCommand($command,$args);
 
-		$this->assertEqual($response, 'Aragorn says: Hello');	
+		$this->assertEquals($response, 'Aragorn says: Hello');	
 
 	}
 	
@@ -37,7 +33,7 @@ class CommandProcessorTestCase extends UnitTestCase {
 
 		$response = GameServer\CommandProcessor::execCommand($command,$args);
 
-		$this->assertEqual($response, 'Aragorn says: Good bye');	
+		$this->assertEquals($response, 'Aragorn says: Good bye');	
 
 	}
 	
@@ -51,7 +47,7 @@ class CommandProcessorTestCase extends UnitTestCase {
 
 		$response = GameServer\CommandProcessor::execCommand($command,$args);
 
-		$this->assertEqual($response, 'Frodo says: Hello');	
+		$this->assertEquals($response, 'Frodo says: Hello');	
 
 	}
 
@@ -69,8 +65,8 @@ class CommandProcessorTestCase extends UnitTestCase {
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 		
-		$this->assertEqual($charactePositionChordsX, 20);	
-		$this->assertEqual($charactePositionChordsY , 30);
+		$this->assertEquals($charactePositionChordsX, 20);	
+		$this->assertEquals($charactePositionChordsY , 30);
 
 	}
 

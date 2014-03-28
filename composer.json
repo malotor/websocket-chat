@@ -1,7 +1,7 @@
 {
     "require": {
-			"cboden/Ratchet": "0.3.*",
-			"simpletest/simpletest": "1.1.5"   
+    	"cboden/Ratchet": "0.3.*",
+        "phpunit/phpunit": "4.0.*"   
     },
     "autoload": {
     	"psr-0": {

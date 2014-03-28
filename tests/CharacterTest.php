@@ -1,11 +1,7 @@
 <?php
 
-require '../vendor/autoload.php';
 
-
-require '../vendor/simpletest/simpletest/autorun.php';
-
-class CharacterTestCase extends UnitTestCase {
+class CharacterTest extends PHPUnit_Framework_TestCase {
 	
 	
 	private $goodCharacter;
@@ -20,7 +16,7 @@ class CharacterTestCase extends UnitTestCase {
 		
 		$userName = $this->goodCharacter->getName();
 
-		$this->assertEqual($userName, 'Aragorn');		
+		$this->assertEquals($userName, 'Aragorn');		
 	}
 
 	function testDiferentCharactersHaveDiferentsNames() {
@@ -28,7 +24,7 @@ class CharacterTestCase extends UnitTestCase {
 		$anothterGoogCharacte->setName("Frodo");
 		$anothterGoogCharacteName = $anothterGoogCharacte->getName();
 
-		$this->assertEqual($anothterGoogCharacteName, 'Frodo');	
+		$this->assertEquals($anothterGoogCharacteName, 'Frodo');	
 	}
 
 
@@ -39,8 +35,8 @@ class CharacterTestCase extends UnitTestCase {
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 
-		$this->assertEqual($charactePositionChordsX, 10);	
-		$this->assertEqual($charactePositionChordsY , 20);	
+		$this->assertEquals($charactePositionChordsX, 10);	
+		$this->assertEquals($charactePositionChordsY , 20);	
 
 	}
 
@@ -52,8 +48,8 @@ class CharacterTestCase extends UnitTestCase {
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 		
-		$this->assertEqual($charactePositionChordsX, 32);	
-		$this->assertEqual($charactePositionChordsY , 45);	
+		$this->assertEquals($charactePositionChordsX, 32);	
+		$this->assertEquals($charactePositionChordsY , 45);	
 
 	}
 
@@ -64,7 +60,7 @@ class CharacterTestCase extends UnitTestCase {
 
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 
-		$this->assertEqual($charactePositionChordsY, 55);	
+		$this->assertEquals($charactePositionChordsY, 55);	
 
 	}
 	
@@ -75,7 +71,7 @@ class CharacterTestCase extends UnitTestCase {
 
 		$charactePositionChordsY = $this->goodCharacter->getPositionY();
 
-		$this->assertEqual($charactePositionChordsY, 35);	
+		$this->assertEquals($charactePositionChordsY, 35);	
 	}
 
 	function testMoveCharacterToLeft() {
@@ -84,7 +80,7 @@ class CharacterTestCase extends UnitTestCase {
 
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 
-		$this->assertEqual($charactePositionChordsX, 22);	
+		$this->assertEquals($charactePositionChordsX, 22);	
 
 	}
 
@@ -95,55 +91,7 @@ class CharacterTestCase extends UnitTestCase {
 
 		$charactePositionChordsX = $this->goodCharacter->getPositionX();
 
-		$this->assertEqual($charactePositionChordsX, 42);	
-	}
-
-}
-
-
-class BoardTestCase extends UnitTestCase {
-
-	function testCreateBoard() {
-		
-		$board = new Game\Board(100,200);
-
-		$limitX = $board->getLimitHorizontal();
-		
-		$limitY = $board->getLimitVertical();
-
-		$this->assertEqual($limitX, 100);		
-		$this->assertEqual($limitY, 200);
-
-	}
-
-}
-
-
-class MovementManagerTestCase extends UnitTestCase {
-
-	function testMoveAItem() {
-		/*
-		$MovementManager = new Game\MovementMananer();
-		
-		$middleEarth = new Game\Board(100,200);
-
-		$myHobbit = new Game\Character();
-		$myHobbit->setName("Frodo");
-
-		$MovementManager->setBoard($middleEarth);
-		
-
-		$MovementManager->addItem($myHobbit,20,50);
-
-
-
-		$limitX = $board->getLimitHorizontal();
-		
-		$limitY = $board->getLimitVertical();
-
-		$this->assertEqual($limitX, 100);		
-		$this->assertEqual($limitY, 200);
-		*/
+		$this->assertEquals($charactePositionChordsX, 42);	
 	}
 
 }
