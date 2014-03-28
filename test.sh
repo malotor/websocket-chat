@@ -2,10 +2,8 @@
 echo Testing Character Class
 vendor/bin/phpunit --bootstrap vendor/autoload.php tests/CharacterTest.php
 
-
 echo Testing Board Class
 vendor/bin/phpunit --bootstrap vendor/autoload.php tests/BoardTest.php
-
 
 echo Testing MovementManager Class
 vendor/bin/phpunit --bootstrap vendor/autoload.php tests/MovementManagerTest.php
