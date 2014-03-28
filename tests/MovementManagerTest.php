@@ -2,29 +2,42 @@
 
 class MovementManagerTestCase extends PHPUnit_Framework_TestCase {
 
+	private $middleEarth;
+	private $myHobbit;
+
+
+	function setUp() {
+		$this->middleEarth = new Game\Board(100,200);
+
+		$this->myHobbit = new Game\Character();
+		$this->myHobbit->setName("Frodo");
+	}
 	function testMoveAItem() {
-		/*
-		$MovementManager = new Game\MovementMananer();
 		
-		$middleEarth = new Game\Board(100,200);
+		$MovementManager = new Game\MovementManager($this->middleEarth,$this->myHobbit);
 
-		$myHobbit = new Game\Character();
-		$myHobbit->setName("Frodo");
+		$result = $MovementManager->moveItem(20,50);
 
-		$MovementManager->setBoard($middleEarth);
+		$charactePositionChordsX = $this->myHobbit->getPositionX();
+		$charactePositionChordsY = $this->myHobbit->getPositionY();
+
+		$this->assertEquals($charactePositionChordsX, 20);	
+		$this->assertEquals($charactePositionChordsY , 50);	
 		
+	}
 
-		$MovementManager->addItem($myHobbit,20,50);
-
-
-
-		$limitX = $board->getLimitHorizontal();
+	function testMoveAItemOutSideBoard() {
 		
-		$limitY = $board->getLimitVertical();
+		$MovementManager = new Game\MovementManager($this->middleEarth,$this->myHobbit);
 
-		$this->assertEqual($limitX, 100);		
-		$this->assertEqual($limitY, 200);
-		*/
+		$MovementManager->moveItem(120,50);
+
+		$charactePositionChordsX = $this->myHobbit->getPositionX();
+		$charactePositionChordsY = $this->myHobbit->getPositionY();
+
+		$this->assertEquals($charactePositionChordsX, 0);	
+		$this->assertEquals($charactePositionChordsY , 0);	
+		
 	}
 
 }

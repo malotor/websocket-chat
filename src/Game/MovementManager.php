@@ -4,5 +4,8 @@ namespace Game;
 
 class MovementManager {
 	
+	function moveItem() {
+		
+	}	
 	
 }
