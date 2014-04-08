@@ -2,26 +2,26 @@
 
 namespace GameServer;
 
-class MoveCommand implements iCommand {
 
-	private $character;
-	private $x;
-	private $y;
-	
-	public function __construct ($character, $x, $y) {
-		$args = func_get_args();
-
-		$this->character = $args[0];
-		$this->x = $args[1];
-		$this->y = $args[2];
-	}
+class MoveCommand implements iCommand  {
+	public function __construct ($game, $character, $x, $y) {
+		
+		$this->character = $character;
+		$this->game = $game;
+		$this->x = $x;
+		$this->y = $y;
+	}	
 
 	public function execute() {
 
-		$this->character->setPosition($this->x,$this->y);
-		$characterName = $this->character->getName();
+		//$character = $this->game->getCharacter($this->characterName);
 
-		return $characterName . " move to (" . $this->x . ',' . $this->y . ')'; 
+		//Move the character
+		$this->game->moveCharacter($this->character,$this->x,$this->y);
 
+		//Prepare the message
+		$name = $this->character->getName();
+
+		return "{$name} move to ({$this->x}, {$this->y})";
 	}	
 }

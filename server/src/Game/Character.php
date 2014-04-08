@@ -12,6 +12,10 @@ class Character {
 
 
 	public function getName() {
+		if (!$this->name) {
+			throw new CharacterDontHaveName();
+		}
+
 		return $this->name;
 	}
 	public function setName($name) {
@@ -45,4 +49,14 @@ class Character {
 		$this->x += $shift;
 	}
 	
+}
+
+
+class CharacterDontHaveName extends \Exception {
+   public function __construct($message = null, $code = 0, Exception $previous = null)
+   {
+   		$message = 'The character must have a name';
+
+   		parent::__construct($message, $code, $previous);
+   }
 }

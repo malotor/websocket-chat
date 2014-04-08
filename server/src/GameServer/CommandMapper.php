@@ -10,7 +10,8 @@ class CommandMapper {
 
 		$this->commandMap = array (
 			'say' 		=> 'GameServer\SayCommand',
-			'move' 		=> 'GameServer\MoveCommand'
+			'move' 		=> 'GameServer\MoveCommand',
+			'create' 		=> 'GameServer\CreateCommand'
 		);
 
 	}

@@ -4,20 +4,19 @@ namespace GameServer;
 
 class SayCommand implements iCommand {
 
+	private $msg;
 	private $character;
-	private $sentence;
-	
-	public function __construct () {
-		$args = func_get_args();
-		$this->character = $args[0];
-		$this->sentence = $args[1];
+
+	public function __construct ($character,$msg) {
+		$this->msg = $msg;
+		$this->character = $character;;
 	}
 
 	public function execute() {
-
+		
 		$characterName = $this->character->getName();
 
-		return $characterName . " says: " . $this->sentence;
+		return $characterName . " says: " . $this->msg;
 
 	}	
 }

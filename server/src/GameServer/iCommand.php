@@ -4,5 +4,6 @@ namespace GameServer;
 
 interface iCommand
 {
-    public function execute();
+	  
+	  public function execute();
 }

@@ -1,3 +1,7 @@
+<?php
+	
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +18,9 @@
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+    <link href="./assets/css/styles.css" rel="stylesheet">
+
+    <script src="./assets/js/javascript.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -26,33 +32,25 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body onload="init()">
+		<div class="container-fluid">
+		  <div class="row">
+		    <div class="col-md-6">
+		    	<h2>Character creation</h2>
+		    	<form class="form" role="form" action="./client.php" method="POST">
 
-    <div class="container">
-      <?php
-        if (isset($_GET['error'])) {
-          ?>
-            <div class="alert alert-danger">Ops!!! I think we have problems!</div>
-          <?php
-        }
-      ?>
-      <form class="form-signin" role="form" action="./createCharacter.php" method="POST">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" placeholder="User" name="user" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" name="pass" required>
-        <!--
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        -->
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+				  	<div class="form-group">
+					    <label for="exampleInputFile">Character name</label>
+					    <input type="text" class="form-control" id="" placeholder="Enter email" name="character_name">
+					    <p class="help-block">Enter the name of your character.</p>
+					  </div>
+						<button type="submit" class="btn btn-default">Submit</button>
 
-    </div> <!-- /container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  </body>
+					</form>
+		    </div>
+  		</div>
+		</div>
+    
 </html>
+
+

@@ -1,5 +1,13 @@
 <?php
 
+	if (isset($_POST['character_name'])) {
+		$_COOKIE['character_name'] = $_POST['character_name'];
+		
+	}
+
+	if (!isset($_COOKIE['character_name'] )) {
+		header('Location: ./index.php');
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +51,7 @@
 					</div>
 		    	<form class="form-inline" role="form">
 
-		    		<input id="user_name" type="hidden" value="<?=$_POST['user_name']?>">
-						<input id="character_name" type="hidden" value="<?=$_POST['character_name']?>" >
+						<input id="character_name" type="hidden" value="<?=$_COOKIE['character_name']?>" >
 
 				  	<div class="form-group">
 					    <label class="sr-only" for="exampleInputEmail2">Email address</label>
