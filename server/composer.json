@@ -1,0 +1,12 @@
+{
+    "require": {
+    	"cboden/Ratchet": "0.3.*",
+        "phpunit/phpunit": "4.0.*"   
+    },
+    "autoload": {
+    	"psr-0": {
+    		"Game\\": "src/",
+    		"GameServer\\": "src/"
+    	}
+    }
+}
