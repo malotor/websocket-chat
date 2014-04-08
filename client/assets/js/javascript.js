@@ -1,7 +1,7 @@
 var socket;
 
 function init() {
-	var host = "ws://awesome.dev:8080"; // SET THIS TO YOUR SERVER
+	var host = "ws://37.187.59.34:8080"; // SET THIS TO YOUR SERVER
 	try {
 		socket = new WebSocket(host);
 		log('WebSocket - status '+socket.readyState);
