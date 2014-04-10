@@ -1,7 +1,7 @@
 var socket;
 
 function init() {
-	var host = "ws://37.187.59.34:8080"; // SET THIS TO YOUR SERVER
+	var host = "ws://awesome.dev:8080"; // SET THIS TO YOUR SERVER
 	try {
 		socket = new WebSocket(host);
 		log('WebSocket - status '+socket.readyState);
@@ -39,10 +39,10 @@ function send(){
 	txt.focus();
 	try { 
 
-		jsonmessage = '{ "command": "say" , "args" : {  "character": "' + $('character_name').value + '", "msg" : "' + msg + '" } }';
+		jsonmessage = '{ "command": "say" , "args" : {"character": "' + $('character_name').value + '" , "msg": "' + msg + '"}}';
 
 		socket.send(jsonmessage); 
-		//log('Sent: '+jsonmessage); 
+		log('Sent: '+jsonmessage); 
 	} catch(ex) { 
 		log(ex); 
 	}
@@ -50,7 +50,7 @@ function send(){
 
 function createCharacter() {
 	try { 
-		jsonmessage = '{ "command": "create" ,  "args" : { "name": "' + $('character_name').value + '" } }';
+		jsonmessage = '{ "command": "create" , "args" : { "character": "' + $('character_name').value + '"}}';
 		socket.send(jsonmessage); 
 		log('Sent Command: '+jsonmessage); 
 	} catch(ex) { 
@@ -61,7 +61,7 @@ function createCharacter() {
 
 function move() {
 	try { 
-		jsonmessage = '{ "command": "move"  , "args" : { "character": "' + $('character_name').value + '", "x": "' + $('posX').value + '", "y": "' + $('posY').value + '" } }';
+		jsonmessage = '{ "command": "move" , "args" : { "character": "' + $('character_name').value + '", "x": "' + $('posX').value + '", "y": "' + $('posY').value + '"} }';
 		socket.send(jsonmessage); 
 		log('Sent Command: '+jsonmessage); 
 	} catch(ex) { 

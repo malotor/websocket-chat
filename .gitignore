@@ -1,3 +1,4 @@
 server/vendor/*
 client/vendor/*
 client/bower_components/*
+server/log

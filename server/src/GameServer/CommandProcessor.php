@@ -12,47 +12,45 @@ class CommandProcessor  {
 		
 		$jsonMsg = json_decode($msg,true);
 
-    $command = $jsonMsg['command'];
-    $args = $jsonMsg['args'];
+        $command = $jsonMsg['command'];
+        $args = $jsonMsg['args'];
 
-    switch($command) {
+        switch($command) {
 
-    	case 'say':
-    		$character = $this->game->getCharacter($args['character']);
+        	case 'say':
+        		$character = $this->game->getCharacter($args['character']);
 
-    		$command = new SayCommand($character,$args['msg']);
-    		return $command->execute();
+        		$command = new SayCommand($character,$args['msg']);
+        		return $command->execute();
 
-    		break;
+        		break;
 
-    	case 'move':
-    		$character = $this->game->getCharacter($args['character']);
-    		$command = new MoveCommand($this->game,$character,$args['x'],$args['y']);
-    		return $command->execute();
+        	case 'move':
+        		$character = $this->game->getCharacter($args['character']);
+        		$command = new MoveCommand($this->game,$character,$args['x'],$args['y']);
+        		return $command->execute();
 
-    		break;
-      case 'create':
+        		break;
+          case 'create':
 
-        $character = new \Game\Character();
-        $character->setName($args['name']);
+                $character = new \Game\Character();
+                $character->setName($args['character']);
 
-        $this->game->addCharacter($character);
+                $this->game->addCharacter($character);
 
-        return "{$args['name']} has joined the game";
+                return "{$args['character']} has joined the game";
 
-        break;
+                break;
 
-    	default:
+    	   default:
     		
-        throw new CommandNotExistsException();
+            throw new CommandNotExistsException();
 
+            break;
 
+        }
 
-    		break;
-
-    }
-
-    /*
+        /*
 		$commandMapper = new CommandMapper();
 
 		$commandMap = $commandMapper->getMap();
