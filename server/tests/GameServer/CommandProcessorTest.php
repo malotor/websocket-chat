@@ -20,6 +20,8 @@ class CommandProcessorTestCase extends PHPUnit_Framework_TestCase {
 
 	}
 
+
+
 	function testSayCommand() {
 		
 		$msg = '{ "command": "say" , "args" : {  "character": "Aragorn",  "msg" : "Hello" } }';

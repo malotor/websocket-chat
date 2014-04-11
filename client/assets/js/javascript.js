@@ -50,7 +50,7 @@ function send(){
 
 function createCharacter() {
 	try { 
-		jsonmessage = '{ "command": "create" , "args" : { "character": "' + $('character_name').value + '"}}';
+		jsonmessage = '{ "command": "create" , "args" : [{ "name": "' + $('character_name').value + '"}]   }';
 		socket.send(jsonmessage); 
 		log('Sent Command: '+jsonmessage); 
 	} catch(ex) { 

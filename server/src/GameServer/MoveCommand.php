@@ -2,26 +2,29 @@
 
 namespace GameServer;
 
+class MoveCommand extends Command implements iCommand  {
 
-class MoveCommand implements iCommand  {
-	public function __construct ($game, $character, $x, $y) {
+	
+	const RESPONSE_STRING = "%s move to (%d, %d)"; 
+
+	public function __construct ($characterName, $x, $y) {
 		
-		$this->character = $character;
-		$this->game = $game;
+		$this->characterName = $characterName;
 		$this->x = $x;
 		$this->y = $y;
+		
 	}	
 
 	public function execute() {
 
-		//$character = $this->game->getCharacter($this->characterName);
-
+		$character = $this->game->getCharacter($this->characterName);
+		
 		//Move the character
-		$this->game->moveCharacter($this->character,$this->x,$this->y);
+		$this->game->moveCharacter($character,$this->x,$this->y);
 
 		//Prepare the message
-		$name = $this->character->getName();
+		$name = $character->getName();
 
-		return "{$name} move to ({$this->x}, {$this->y})";
+		return vsprintf(self::RESPONSE_STRING,array($name,$this->x,$this->y));
 	}	
 }

@@ -5,87 +5,119 @@
 class MoveCommandTest extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
-		$this->aragorn = $this->getMock('Game\Character',array('setPosition','getName'));
+	
+		$this->aragorn = new Game\Character();
+		$this->aragorn->setName("Aragorn");
 
-		$this->aragorn->expects($this->any())
-             ->method('getName')
-             ->will($this->returnValue('Aragorn'));
-             
+		$this->frodo = new Game\Character();
+		$this->frodo->setName("Frodo");
 
-		$this->frodo = $this->getMock('Game\Character',array('setPosition','getName'));
-		$this->frodo->expects($this->any())
-             ->method('getName')
-             ->will($this->returnValue('Frodo'));
+		$this->board = new Game\Board(100,100);
 
 
-		$this->game = $this->getMock('Game', array('moveCharacter','getCharacter'));
+		$this->game = new Game\Game();
+
+		$this->game->addBoard($this->board);
+
+		$this->game->addCharacter($this->aragorn);
+		$this->game->addCharacter($this->frodo);
+
+
 	}
 
 	function testACharacterMoveToPoint() {
 		
-		$command = new GameServer\MoveCommand($this->game, $this->aragorn,32, 45);
-	
+		$characterName = "Aragorn";
+		$x = 32;
+		$y = 45;
+
+		$command = new GameServer\MoveCommand($characterName, $x, $y);
+		$command->setGame($this->game);
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
+
 		$response = $command->execute();
-		$this->assertEquals($response, 'Aragorn move to (32, 45)');	
+		$this->assertEquals($response, $responseExpected);	
+
 	}
 
 	function testACharacterMoveToAnotherPoint() {
-		
-		$command = new GameServer\MoveCommand($this->game, $this->aragorn ,50,15);
-		
+		$characterName = "Aragorn";
+
+		$x = 50;
+		$y = 15;
+
+		$command = new GameServer\MoveCommand($characterName,$x, $y);
+		$command->setGame($this->game);
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
+
 		$response = $command->execute();
-		$this->assertEquals($response, 'Aragorn move to (50, 15)');	
+		$this->assertEquals($response, $responseExpected);	
 	}
 
 	function testAnotherCharacterMoveToPoint() {
-		
-		$command = new GameServer\MoveCommand($this->game, $this->frodo,32,45);
-		
-		$response = $command->execute();
-		$this->assertEquals($response, 'Frodo move to (32, 45)');	
+		$characterName = "Frodo";
 
-	}
+		$x = 32;
+		$y = 45;
 
-	/*
-	function testCharacterIsReallyInThisPosition () {		
-		//Set the expectations
-		$this->game->expects($this->once())
-                 ->method('moveCharacter')
-                 ->with($this->equalTo($this->aragorn),32,45);
-
-
-		$command = new GameServer\MoveCommand('Aragorn',32, 45);
+		$command = new GameServer\MoveCommand($characterName,$x, $y);
 		$command->setGame($this->game);
+
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
+
 		$response = $command->execute();
-		$this->assertEquals($response, 'Aragorn move To (32, 45)');	
+		$this->assertEquals($response, $responseExpected);	
+
 	}
-	*/
+
+	
 
 	function testCharacterIsReallyInAnotherPosition () {		
 		
-		//Set the expectations
-		/*
-		$this->game->expects($this->once())
-                 ->method('getCharacter')
-                 ->with('Aragorn')
-                 ->will($this->returnValue($this->aragorn));
-		*/
-		//Set the expectations
-		$this->game->expects($this->once())
-                 ->method('moveCharacter')
-                 ->with($this->aragorn,55,12);
-
-  
-    $this->aragorn->expects($this->any())
-             ->method('setPosition')
-             ->with(55,12);
+		$characterName = "Aragorn";
 	
-             
-		$command = new GameServer\MoveCommand($this->game, $this->aragorn,55, 12);
-		
+		$x = 32;
+		$y = 45;
+
+		$command = new GameServer\MoveCommand($characterName,$x, $y);
+		$command->setGame($this->game);
+
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
+
 		$response = $command->execute();
 
-		$this->assertEquals($response, 'Aragorn move to (55, 12)');
+		$this->assertEquals($response, $responseExpected);	
+
+		$charactePositionChordsX = $this->aragorn->getPositionX();
+		$charactePositionChordsY = $this->aragorn->getPositionY();
+
+		
+		$this->assertEquals($charactePositionChordsX, $x);	
+		$this->assertEquals($charactePositionChordsY , $y);	
+
+	}
+
+
+	function testAnotherCharacterIsReallyInAnotherPosition () {		
+		
+		$characterName = "Frodo";
+	
+		$x = 11;
+		$y = 2;
+
+		$command = new GameServer\MoveCommand($characterName, $x, $y);
+		$command->setGame($this->game);
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
+
+		$response = $command->execute();
+		$this->assertEquals($response, $responseExpected);	
+
+		$charactePositionChordsX = $this->frodo->getPositionX();
+		$charactePositionChordsY = $this->frodo->getPositionY();
+
+		
+		$this->assertEquals($charactePositionChordsX, $x);	
+		$this->assertEquals($charactePositionChordsY , $y);	
 
 	}
 	

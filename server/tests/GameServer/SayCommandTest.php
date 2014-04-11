@@ -9,36 +9,60 @@ class SayCommandTest extends PHPUnit_Framework_TestCase {
 
 		$this->frodo = new Game\Character();
 		$this->frodo->setName("Frodo");
+
+		$this->board = new Game\Board(100,100);
+
+
+		$this->game = new Game\Game();
+
+		$this->game->addBoard($this->board);
+
+		$this->game->addCharacter($this->aragorn);
+		$this->game->addCharacter($this->frodo);
 	}
 
 	function testACharacterSayHello() {
 		
-		$string = "Hello";
-		$command = new GameServer\SayCommand($this->aragorn,$string);
-		$response = $command->execute();
+		$character = "Aragon";
+		$msg = "Hello";
 
-		$this->assertEquals($response, 'Aragorn says: Hello');	
+		$command = new GameServer\SayCommand($character,$msg);
+		$response = $command->execute();
+		
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($character,$msg));
+
+
+		$this->assertEquals($response, $responseExpected);	
 
 	}
 
 	function testAnotherCharacterSayHello() {
 		
-		$string = "Hello";
-		$command = new GameServer\SayCommand($this->frodo, $string);
-		$response = $command->execute();
+		$character = "Frodo";
+		$msg = "Hello";
 
-		$this->assertEquals($response, 'Frodo says: Hello');	
+		$command = new GameServer\SayCommand($character,$msg);
+		$response = $command->execute();
+		
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($character,$msg));
+
+
+		$this->assertEquals($response, $responseExpected);	
 
 	}
 
 	function testACharacterSayGoodBay() {
 		
-		$string = "Good bye";
-		$command = new GameServer\SayCommand($this->aragorn, $string);
+		$character = "Aragon";
+		$msg = "Good bye";
 
+		$command = new GameServer\SayCommand($character,$msg);
 		$response = $command->execute();
+		
+		$responseExpected = vsprintf($command::RESPONSE_STRING,array($character,$msg));
 
-		$this->assertEquals($response, 'Aragorn says: Good bye');	
+
+		$this->assertEquals($response, $responseExpected);
 
 	}
 }
