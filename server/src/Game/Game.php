@@ -63,8 +63,19 @@ class Game  {
 	}
 	*/
 
+
 	protected function validateCord($cord) {
-		return is_numeric($cord);
+		if (is_numeric($cord)) {
+			$cord += 0;
+			if (gettype($cord)=='integer') {
+				return true;
+			}
+			else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	protected function validatePosition($x,$y) {

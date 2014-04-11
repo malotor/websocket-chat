@@ -1,5 +1,7 @@
 <?php
 
+
+
 class GameTest extends PHPUnit_Framework_TestCase {
 
 	function setUp() {
@@ -150,8 +152,32 @@ class GameTest extends PHPUnit_Framework_TestCase {
 		
 		$this->helmsDeep->addCharacter($this->legolas);
 
-		$this->helmsDeep->moveCharacter($this->legolas,'20','15');
+		$this->helmsDeep->moveCharacter($this->legolas,'x','y');
 	
+	}
+
+	
+	function testMoveACaracterToInvalidNumCoords() {
+		
+		$this->helmsDeep->addCharacter($this->legolas);
+
+		$this->helmsDeep->moveCharacter($this->legolas,'22','33');
+
+		$this->assertEquals($this->legolas->getPositionX(), 22);	
+		$this->assertEquals($this->legolas->getPositionY(), 33);	
+	
+	}
+
+	/**
+	 * @expectedException Game\InvalidCoords
+	 */
+
+	function testMoveACaracterToInvalidNumStringCoords() {
+		
+		$this->helmsDeep->addCharacter($this->legolas);
+
+		$this->helmsDeep->moveCharacter($this->legolas,'22.3','33.3');
+
 	}
 
 	/**
