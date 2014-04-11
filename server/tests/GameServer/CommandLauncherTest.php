@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 class CommandLauncherTestCase extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
@@ -139,4 +139,4 @@ class CommandLauncherTestCase extends PHPUnit_Framework_TestCase {
 
 
 
-}
+}*/
