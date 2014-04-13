@@ -23,10 +23,18 @@ class Game  {
 
 	function addBoard($board) {
 		$this->board = $board;
+		$this->MovementValidator = new MovementValidator($this->board);
 	}
 
 	function moveCharacter($character, $x, $y) {
-		
+
+		if (!$this->validateCord($x)) {
+			throw new InvalidCoords();
+		}
+		if (!$this->validateCord($y)) {
+			throw new InvalidCoords();
+		}
+
 		if (!$this->hasCharacter($character)) {
 			throw new CharacterIsNotInGame();
 		} 
@@ -44,12 +52,22 @@ class Game  {
 		}
 	}
 
-	/* TODO: Smells we need to refactor
-			1) Validate the movemento from board
-			2) Move he charaacter
 
-		Another validator class
-		*/
+	protected function validateCord($cord) {
+		if (is_numeric($cord)) {
+			$cord += 0;
+			if (gettype($cord)=='integer') {
+				return true;
+			}
+			else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+
 	protected function validatePosition($x,$y) {
 		$limitX = $this->board->getLimitHorizontal();
 		$limitY = $this->board->getLimitVertical();
