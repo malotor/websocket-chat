@@ -2,21 +2,21 @@
 
 namespace GameServer;
 
-class SayCommand implements iCommand {
+class SayCommand extends Command implements iCommand {
 
 	private $msg;
 	private $character;
 
-	public function __construct ($character,$msg) {
+	const RESPONSE_STRING = "%s says: %s"; 
+
+	public function __construct ($characterName, $msg) {
 		$this->msg = $msg;
-		$this->character = $character;;
+		$this->characterName = $characterName;;
 	}
 
 	public function execute() {
-		
-		$characterName = $this->character->getName();
-
-		return $characterName . " says: " . $this->msg;
+	
+		return vsprintf(self::RESPONSE_STRING,array($this->characterName, $this->msg));
 
 	}	
 }

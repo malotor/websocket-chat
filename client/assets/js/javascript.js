@@ -1,7 +1,7 @@
 var socket;
 
 function init() {
-	var host = "ws://awesome.dev:8080"; // SET THIS TO YOUR SERVER
+	var host = "ws://develclub.net:8080"; // SET THIS TO YOUR SERVER
 	try {
 		socket = new WebSocket(host);
 		log('WebSocket - status '+socket.readyState);
@@ -50,7 +50,7 @@ function send(){
 
 function createCharacter() {
 	try { 
-		jsonmessage = '{ "command": "create" , "args" : { "character": "' + $('character_name').value + '"}}';
+		jsonmessage = '{ "command": "create" , "args" : [{ "name": "' + $('character_name').value + '"}]   }';
 		socket.send(jsonmessage); 
 		log('Sent Command: '+jsonmessage); 
 	} catch(ex) { 

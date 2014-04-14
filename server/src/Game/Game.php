@@ -53,6 +53,7 @@ class Game  {
 	}
 
 
+
 	protected function validateCord($cord) {
 		if (is_numeric($cord)) {
 			$cord += 0;
@@ -91,6 +92,14 @@ class CharacterIsNotInGame extends \Exception {
    public function __construct($message = null, $code = 0, Exception $previous = null)
    {
    		$message = 'The character isn´t in the game';
+      parent::__construct($message, $code, $previous);
+   }
+}
+
+class InvalidCoords extends \Exception {
+   public function __construct($message = null, $code = 0, Exception $previous = null)
+   {
+   		$message = 'The coords are invalid';
       parent::__construct($message, $code, $previous);
    }
 }
