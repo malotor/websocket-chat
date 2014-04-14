@@ -4,28 +4,27 @@ namespace GameServer;
 
 class CommandProcessor  {
 
+
+
 	public function __construct($game) {
 		$this->game = $game;
 	}
 	
 	public function execCommand($msg) {
 		
+		$file = "./commandMap.yml";
+
     $jsonMsg = json_decode($msg,true);
 
 
     $commandName = $jsonMsg['command'];
     $args = $jsonMsg['args'];
     
-		$commandMapper = new CommandMapper();
-
-		$commandMap = $commandMapper->getMap();
-
 		
-		try {
-			$commandClassName = $commandMap[$commandName];
-		} catch (\Exception $e) {
-			throw new CommandNotExistsException();
-		}
+		$commandMapper = new CommandMapper($file);
+		
+		$commandClassName = $commandMapper->getClass($commandName);
+		
 		
 		$ref = new \ReflectionClass($commandClassName);
 		$commandClass = $ref->newInstanceArgs($args);
@@ -38,11 +37,4 @@ class CommandProcessor  {
 
 
 
-class CommandNotExistsException extends \Exception {
-   public function __construct($message = null, $code = 0, Exception $previous = null)
-   {
-   		$message = 'The command doesn´t exists';
 
-   		parent::__construct($message, $code, $previous);
-   }
-}

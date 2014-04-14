@@ -14,8 +14,12 @@ class MoveCommandTest extends PHPUnit_Framework_TestCase {
 
 		$this->board = new Game\Board(100,100);
 
+	
 
 		$this->game = new Game\Game();
+
+		$movementValidator = new Game\MovementValidator(100, 100);
+		$this->game->addMovementValidator($movementValidator);
 
 		$this->game->addBoard($this->board);
 

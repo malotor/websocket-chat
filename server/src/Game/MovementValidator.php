@@ -2,14 +2,21 @@
 
 namespace Game;
 
+//interface validator 
+
+
 class MovementValidator {
 	
-	public function __construct($board) {
+	private $limitX;
+	private $limitY;
 
-		$this->board = $board;
+	public function __construct($limitX, $limitY) {
+
+		$this->limitX = $limitX;
+		$this->limitY = $limitY;
 	}
 
-	public function validateMovement($x,$y) {
+	public function validateMovement($x, $y) {
 		
 		if (!$this->validateCord($x)) {
 			throw new InvalidCoords();
@@ -17,11 +24,9 @@ class MovementValidator {
 		if (!$this->validateCord($y)) {
 			throw new InvalidCoords();
 		}
-
-		if (!$this->hasCharacter($character)) {
-			throw new CharacterIsNotInGame();
-		} 
 		
+		return $this->validatePosition($x, $y);
+
 	}
 
 	
@@ -31,35 +36,25 @@ class MovementValidator {
 			if (gettype($cord)=='integer') {
 				return true;
 			}
-			else {
-				return false;
-			}
-		} else {
+			return false;
+			
+		} 
+		return false;
+		
+	}
+
+	protected function validatePosition($x, $y) {
+		
+		if ((($x > $this->limitX) || ( $x < 0)) || (($y > $this->limitY) || ($y < 0))) {
 			return false;
 		}
-	}
 
-	protected function validatePosition($x,$y) {
-		$limitX = $this->board->getLimitHorizontal();
-		$limitY = $this->board->getLimitVertical();
-
-		if ((($x > $limitX) || ( $x < 0)) || (($y > $limitY) || ($y < 0))) 
-			throw new CharacterOutSideBoardException();
+		return true;
+		
 	}
 
 
 }
-
-
-
-class CharacterOutSideBoardException extends \Exception {
-   public function __construct($message = null, $code = 0, Exception $previous = null)
-   {
-   		$message = 'The character couldn´t be outside the board';
-      parent::__construct($message, $code, $previous);
-   }
-}
-
 
 
 class InvalidCoords extends \Exception {

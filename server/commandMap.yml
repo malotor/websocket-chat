@@ -1,0 +1,3 @@
+say : GameServer\SayCommand
+move : GameServer\MoveCommand
+create : GameServer\CreateCharacterCommand
