@@ -8,29 +8,40 @@ class Game  {
 	private $characters;
 	private $movementValidator;
 
-	public function __construct() {
+  public function __construct($movementValidator) {
+		$this->movementValidator = $movementValidator;
 		$this->characters = new \SplObjectStorage();
 	}
+	
+	/*
+	protected $events = array();
+  
 
-	function addCharacter($character) {
+
+  public function attach($eventName, $callback) {
+    if (!isset($this->events[$eventName])) {
+        $this->events[$eventName] = array();
+    }
+    $this->events[$eventName][] = $callback;
+  }
+
+  public function trigger($eventName, $data = null) {
+    foreach ($this->events[$eventName] as $callback) {
+        $callback($eventName, $data);
+    }
+  }
+	*/
+	
+	function addCharacter($character, $key=null) {
 		
-		$this->characters->attach($character);
+		$this->characters->attach($character, $key);
 	}
 
 	function hasCharacter($character) {
 		
 		return $this->characters->contains($character);
 	}
-
-	function addBoard($board) {
-		$this->board = $board;
-		
-	}
-
-	function addMovementValidator($movementValidator) {
-		$this->movementValidator = $movementValidator;
-	}
-
+	
 	function moveCharacter($character, $x, $y) {
 
 		if (!$this->hasCharacter($character)) {
@@ -49,6 +60,18 @@ class Game  {
 	function getCharacter($name) {
 		foreach($this->characters as $character) {
 		   if ($character->getName() == $name) {
+		   	return $character;
+		   }
+		}
+	}
+
+	function getCharacters() {
+		return $this->characters;
+	}
+
+	function getCharacterByKey($key) {
+		foreach($this->characters as $character) {
+		   if ($this->characters[$character] == $key) {
 		   	return $character;
 		   }
 		}

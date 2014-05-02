@@ -5,7 +5,8 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 	
-		$this->movementValidator = new Game\MovementValidator(100, 100);
+		$board = new Game\Board(100,100);
+		$this->movementValidator = new Game\MovementValidator($board);
 
 	}
 

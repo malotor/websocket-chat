@@ -9,6 +9,7 @@ class Character {
 	private $x;
 	private $y;
 
+	private $color;
 
 
 	public function getName() {
@@ -48,7 +49,12 @@ class Character {
 	public function moveRight($shift) {
 		$this->x += $shift;
 	}
-	
+	public function getColor() {
+		return $this->color;
+	}
+	public function setColor($color) {
+		$this->color = $color;
+	}
 }
 
 

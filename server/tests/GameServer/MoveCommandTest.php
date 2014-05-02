@@ -7,30 +7,28 @@ class MoveCommandTest extends PHPUnit_Framework_TestCase {
 	function setUp() {
 	
 		$this->aragorn = new Game\Character();
-		$this->aragorn->setName("Aragorn");
+		$this->aragorn->setName('Aragorn');
 
-		$this->frodo = new Game\Character();
-		$this->frodo->setName("Frodo");
+		$this->legolas = new Game\Character();
+		$this->legolas->setName('legolas');
 
-		$this->board = new Game\Board(100,100);
+		$middleEarth = new Game\Board(100,200);
 
-	
+		$movementValidator = new Game\MovementValidator($middleEarth);
 
-		$this->game = new Game\Game();
-
-		$movementValidator = new Game\MovementValidator(100, 100);
-		$this->game->addMovementValidator($movementValidator);
-
-		$this->game->addBoard($this->board);
-
-		$this->game->addCharacter($this->aragorn);
-		$this->game->addCharacter($this->frodo);
-
+		//$this->helmsDeep = new Game\Game($movementValidator);
 
 	}
 
 	function testACharacterMoveToPoint() {
-		
+
+		$this->game = $this->getMock('Game'));
+
+
+		$this->game->expects($this->once())
+                 ->method('moveCharacter')
+                 ->with($this->aragorn,32,45);
+
 		$characterName = "Aragorn";
 		$x = 32;
 		$y = 45;
@@ -38,11 +36,12 @@ class MoveCommandTest extends PHPUnit_Framework_TestCase {
 		$command = new GameServer\MoveCommand($characterName, $x, $y);
 		$command->setGame($this->game);
 		$responseExpected = vsprintf($command::RESPONSE_STRING,array($characterName,$x,$y));
-
 		$response = $command->execute();
+
 		$this->assertEquals($response, $responseExpected);	
 
 	}
+	/*
 
 	function testACharacterMoveToAnotherPoint() {
 		$characterName = "Aragorn";
@@ -124,5 +123,5 @@ class MoveCommandTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($charactePositionChordsY , $y);	
 
 	}
-	
+	*/
 }

@@ -23,8 +23,22 @@ class MoveCommand extends Command implements iCommand  {
 		$this->game->moveCharacter($character,$this->x,$this->y);
 
 		//Prepare the message
-		$name = $character->getName();
+		//$name = $character->getName();
 
-		return vsprintf(self::RESPONSE_STRING,array($name,$this->x,$this->y));
+		$message = array(
+			'event' => 'character_moves',
+			'type' => 'broadcast',
+			'data' => array(
+				'name' => $this->characterName,
+				'color' => $character->getColor(),
+				'x' => $this->x,
+				'y' => $this->y,
+				'msg' => vsprintf(self::RESPONSE_STRING,array($this->characterName,$this->x,$this->y)),
+			)
+		);
+
+		var_dump($message);
+
+		return $message;
 	}	
 }

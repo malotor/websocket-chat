@@ -4,31 +4,38 @@ namespace GameServer;
 
 class CommandProcessor  {
 
+	protected $game;
+
+	protected $commandMapper;
+
+	protected $connectionId;
 
 
-	public function __construct($game) {
+	public function __construct() {
+
+	}
+
+	public function setGame($game) {
 		$this->game = $game;
 	}
+
+	public function setCommandMapper($commandMapper) {
+		$this->commandMapper = $commandMapper;
+	}
+
 	
 	public function execCommand($msg) {
-		
-		$file = "./commandMap.yml";
-
+	
     $jsonMsg = json_decode($msg,true);
 
-
-    $commandName = $jsonMsg['command'];
-    $args = $jsonMsg['args'];
+    $commandName = $jsonMsg['event'];
+    $args = $jsonMsg['data'];
     
-		
-		$commandMapper = new CommandMapper($file);
-		
-		$commandClassName = $commandMapper->getClass($commandName);
-		
-		
+		$commandClassName = $this->commandMapper->getClass($commandName);
 		$ref = new \ReflectionClass($commandClassName);
 		$commandClass = $ref->newInstanceArgs($args);
     $commandClass->setGame($this->game);
+		
 		return $commandClass->execute();
 		
 	}

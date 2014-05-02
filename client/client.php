@@ -17,17 +17,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
     <title>Game Demo v0.1</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./assets/css/styles.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 
-    <script src="./assets/js/javascript.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script src="js/vendor/raphael-min.js"></script>
+    <script src="js/vendor/g.raphael-min.js"></script>
+
+    <script src="js/board.js"></script>
+    <script src="js/eventDispatcher.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -39,33 +48,17 @@
     <![endif]-->
   </head>
 
-  <body onload="init()">
+  <body onload="app.init()">
 		<div class="container-fluid">
 		  <div class="row">
 		    <div class="col-md-6">
-		    	<h2>Chat</h2>
-		    	<div class="panel panel-default">
-					  <div id="log" class="panel-body">
-					    
-					  </div>
-					</div>
-		    	<form class="form-inline" role="form">
+		    	<h2>Board</h2>
 
-						<input id="character_name" type="hidden" value="<?=$_COOKIE['character_name']?>" >
+		    	<div id="board" style="border:1px solid black; width: 400px; height: 400px;">
 
-				  	<div class="form-group">
-					    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-					    <input type="text" class="form-control" id="msg" placeholder="Enter message" onkeypress="onkey(event)">
-					  </div>
+      		</div>
 
-					  <button class="btn btn-default" onclick="send(); return false;">Send</button>
-					  <button class="btn btn-default" onclick="quit(); return false;">Quit</button>
-						<button class="btn btn-default" onclick="reconnect(); return false;">Reconnect</button>
-
-					</form>
-		    </div>
-  			<div class="col-md-6">
-  				<h2>Comandos</h2>
+		    	<h2>Comands</h2>
 
   				<h3>Move</h3>
 
@@ -76,10 +69,36 @@
 					  </div>
 					  <div class="form-group">
 					    <label class="sr-only" for="">Y</label>
-					    <input type="text" class="form-control" id="posY" placeholder="Y" 
+					    <input type="text" class="form-control" id="posY" placeholder="Y" />
 					  </div>
-					  <button class="btn btn-default" onclick="move(); return false;">Move</button>
+					  <button class="btn btn-default" onclick="UI.move(); return false;">Move</button>
 					</form>
+
+		    </div>
+  			<div class="col-md-6">
+  				
+
+					<h2>Chat</h2>
+		    	<div class="panel panel-default">
+		    		<div id="chat" class="panel-body">
+					    
+					  </div>
+					</div>
+		    	<form class="form-inline" role="form">
+
+						<input id="character_name" type="hidden" value="<?=$_COOKIE['character_name']?>" >
+
+				  	<div class="form-group">
+					    <label class="sr-only" for="exampleInputEmail2">Message</label>
+					    <input type="text" class="form-control" id="msg" placeholder="Enter message" onkeypress="onkey(event)">
+					  </div>
+
+					  <button class="btn btn-default" onclick="UI.say(); return false;">Send</button>
+					  <button class="btn btn-default" onclick="server.quit(); return false;">Quit</button>
+						<button class="btn btn-default" onclick="server.reconnect(); return false;">Reconnect</button>
+
+					</form>
+
 				 </div>
 		  </div>
 		</div>

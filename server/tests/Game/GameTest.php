@@ -14,12 +14,12 @@ class GameTest extends PHPUnit_Framework_TestCase {
 
 		$middleEarth = new Game\Board(100,200);
 
-		$this->helmsDeep = new Game\Game();
 
-		$this->helmsDeep->addBoard($middleEarth);
-		
-		$movementValidator = new Game\MovementValidator(100, 200);
-		$this->helmsDeep->addMovementValidator($movementValidator);
+		$movementValidator = new Game\MovementValidator($middleEarth);
+
+		$this->helmsDeep = new Game\Game($movementValidator);
+
+		//$this->helmsDeep->addMovementValidator($movementValidator);
 
 	}
 	
@@ -193,5 +193,8 @@ class GameTest extends PHPUnit_Framework_TestCase {
 		$this->helmsDeep->moveCharacter($this->legolas,23.3,23.2);
 	
 	}
+
+
+	
 
 }

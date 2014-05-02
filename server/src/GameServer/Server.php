@@ -9,55 +9,98 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 
+
 class Server implements MessageComponentInterface {
+    
     protected $clients;
 
     private $game;
     private $board;
+    
 
     public function __construct() {
 
         $this->clients = new \SplObjectStorage;
 
         //Inits Game
-        $board = new Game\Board(100,100);
-        $this->game = new Game\Game();
-        $this->game->addBoard($board);
+        $board = new Game\Board(10,10);
+        $movementValidator = new Game\MovementValidator($board);
+        $this->game = new Game\Game($movementValidator);
+        
+        $file = "./commandMap.yml";
+
+        $commandMapper = new CommandMapper($file);
+            
+        $this->CommandProcessor = new CommandProcessor();
+        $this->CommandProcessor->setGame($this->game);
+        $this->CommandProcessor->setCommandMapper($commandMapper);
 
         // create a log channel
-        $this->log = new Logger('wsgame');
-        
+        $this->log = new Logger('wsgame');        
         $this->log->pushHandler(new StreamHandler('./log/wsgame.log', Logger::DEBUG));
 
-        /*
-        $log->addDebug('Esto es un mensaje de DEBUG');
-        $log->addInfo('Esto es un mensaje de INFO');
-        $log->addWarning('Esto es un mensaje de WARNING');
-        $log->addError('Esto es un mensaje de ERROR');
-        $log->addCritical('Esto es un mensaje de CRITICAL');
-        $log->addAlert('Esto es un mensaje de ALERT');
-        */
+
+
+
     }
 
     public function onOpen(ConnectionInterface $conn) {
+        
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
-    
         
         $this->log->addDebug("New connection! ({$conn->resourceId})\n");
-
+        
+        $message = array(
+            'event' => 'user_connected',
+            'data' => array(
+                'msg' => 'New user has joined the game'
+            ),
+        );
+        
+        $jsonMessage = json_encode($message);
+        $this->sendMessageToAll($conn, $jsonMessage);
+        
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
         
+        $this->log->addDebug("$msg (Connection: {$from->resourceId})\n");
+
         try {
-            $CommandProcessor = new CommandProcessor($this->game);
-            $response = $CommandProcessor->execCommand($msg);
-            $this->sendMessageToAll($from, $response);
+
+            $response = $this->CommandProcessor->execCommand($msg);
+            
+            $type = $response['type'];
+            unset($response['type']);
+
+            $jsonMessage = json_encode($response);
+
+            //Las respuestas se debn mandar a uno o a todos
+            switch ($type) {
+                case 'broadcast':
+                    $this->sendMessageToAll($from, $jsonMessage);
+                    break;
+                
+                case 'client':
+                    $this->sendMessageToClient($from, $jsonMessage);
+                    break;
+                default:
+                    $this->sendMessageToAll($from, $jsonMessage);
+                    break;
+            }
+            
+
         } catch (Exception $e) {
             $this->log->addDebug('Excepción capturada: ' . $e->getMessage());
-
-            $this->sendMessageToClient($from, $msg);
+            $message = array(
+            'event' => 'server_message',
+                'data' => array(
+                    'msg' => $e->getMessage(),
+                ),
+            );
+            $jsonMessage = json_encode($message);
+            $this->sendMessageToClient($from, $jsonMessage);
         }
 
 
@@ -72,7 +115,14 @@ class Server implements MessageComponentInterface {
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
         $this->log->addDebug("An error has occurred: {$e->getMessage()}\n");
-        $this->sendMessageToClient($conn, $e->getMessage());
+        $message = array(
+            'event' => 'server_message',
+                'data' => array(
+                    'msg' => $e->getMessage(),
+                ),
+            );
+        $jsonMessage = json_encode($message);
+        $this->sendMessageToClient($conn, $jsonMessage);
         //$conn->close();
     }
 
@@ -83,10 +133,10 @@ class Server implements MessageComponentInterface {
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's'));
 
         foreach ($this->clients as $client) {
-            if ($from !== $client) {
+            //if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
                 $client->send($msg);
-            }
+            //}
         }
 
     }

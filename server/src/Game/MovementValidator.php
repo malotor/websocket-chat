@@ -10,10 +10,12 @@ class MovementValidator {
 	private $limitX;
 	private $limitY;
 
-	public function __construct($limitX, $limitY) {
+	public function __construct($board) {
 
-		$this->limitX = $limitX;
-		$this->limitY = $limitY;
+		$this->board = $board;
+
+		$this->limitX = $this->board->getLimitHorizontal();
+		$this->limitY = $this->board->getLimitVertical();
 	}
 
 	public function validateMovement($x, $y) {
