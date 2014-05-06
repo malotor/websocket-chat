@@ -58,6 +58,7 @@ class GameTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	
 	function testMoveACaracterToOnPosition() {
 		
 		$this->helmsDeep->addCharacter($this->legolas);
@@ -78,7 +79,7 @@ class GameTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->legolas->getPositionY(), 78);	
 
 	}
-
+	
 	/**
 	 * @expectedException Game\CharacterOutSideBoardException
 	 */
@@ -195,6 +196,23 @@ class GameTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	
+	function testAddNewCharacterToGameWithAKey() {
+		
+		$keyAragorn = "keyAragorn";
+		$keyLegolas = "keyLegolas";
+
+		$this->helmsDeep->addCharacter($this->aragorn, $keyAragorn);
+		$this->helmsDeep->addCharacter($this->legolas, $keyLegolas);
+
+		$character = $this->helmsDeep->getCharacterByKey($keyAragorn);
+		$anotherCharacter = $this->helmsDeep->getCharacterByKey($keyLegolas);
+
+		$this->assertEquals($this->aragorn, $character);
+		$this->assertEquals($this->legolas, $anotherCharacter);
+
+
+	}
+
+
 
 }

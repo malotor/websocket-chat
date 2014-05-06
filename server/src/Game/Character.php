@@ -11,7 +11,6 @@ class Character {
 
 	private $color;
 
-
 	public function getName() {
 		if (!$this->name) {
 			throw new CharacterDontHaveName();
