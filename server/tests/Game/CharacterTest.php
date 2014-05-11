@@ -10,6 +10,7 @@ class CharacterTest extends PHPUnit_Framework_TestCase {
 	function setUp() {
 		$this->goodCharacter = new Game\Character();
 		$this->goodCharacter->setName("Aragorn");
+
 	}
 
 	function testCharacterHaveName() {
@@ -115,6 +116,29 @@ class CharacterTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	function testCharacterReciveWound() {
 
+		
+		$this->goodCharacter->setLifePoints(20);
+
+		$this->goodCharacter->receiveDamage(5);
+
+		$lifePoints = $this->goodCharacter->getLifePoints();
+
+		$this->assertEquals($lifePoints , 15);	
+	}
+	function testCharacterReciveWoundSeveralTimes() {
+
+		
+		$this->goodCharacter->setLifePoints(20);
+
+		$this->goodCharacter->receiveDamage(5);
+		$this->goodCharacter->receiveDamage(10);
+		$lifePoints = $this->goodCharacter->getLifePoints();
+
+		$this->assertEquals($lifePoints , 5);	
+
+		
+	}
 
 }

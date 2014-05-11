@@ -5,7 +5,7 @@
 class GameTest extends PHPUnit_Framework_TestCase {
 
 	function setUp() {
-		
+		/*		
 		$this->aragorn = new Game\Character();
 		$this->aragorn->setName('Aragorn');
 
@@ -14,24 +14,56 @@ class GameTest extends PHPUnit_Framework_TestCase {
 
 		$middleEarth = new Game\Board(100,200);
 
+		*/
+		$dice = new Game\Dice(6,1);
+		$attackCalculator = new Game\attackCalculator();
+		$attackManager = new Game\attackManager($attackCalculator, $dice);
 
+
+		$middleEarth = new Game\Board(10,10);
 		$movementValidator = new Game\MovementValidator($middleEarth);
 
-		$this->helmsDeep = new Game\Game($movementValidator);
+		$characterFactory = new Game\CharacterFactory();
+
+		$this->helmsDeep = new Game\Game($movementValidator, $attackManager, $characterFactory);
 
 		//$this->helmsDeep->addMovementValidator($movementValidator);
 
 	}
 	
+	function testNewCharacterHasNoCharacters() {
+		
+		$countCharacters = $this->helmsDeep->countCharacters();
+		
+		$this->assertEquals(0, $countCharacters);
+
+	}
+	
+	
 	function testAddNewCharacterToGame() {
 		
-		$this->helmsDeep->addCharacter($this->aragorn);
+		$characterData['name'] = 'Aragorn';
+		
+		/*$characterData['color'] = '#123';
+		$characterData['x'] = 3;
+		$characterData['y'] = 2;
+		$characterData['lifePoints'] = 10;
+		$characterData['defensePoints'] = 2;
+		$characterData['attackPoints'] = 3;
+		*/
 
-		$this->assertTrue($this->helmsDeep->hasCharacter($this->aragorn));
+		$this->helmsDeep->addCharacter($characterData);
 
+		$countCharacters = $this->helmsDeep->countCharacters();
+
+		$this->assertEquals(1, $countCharacters);
 
 	}
 
+	function testAddAnotherCharacter() {
+		
+	}
+	/*
 	function testAddAnotherCharacterToGame() {
 		
 		$this->helmsDeep->addCharacter($this->legolas);
@@ -58,62 +90,11 @@ class GameTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	
-	function testMoveACaracterToOnPosition() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,20,30);
-		
-		$this->assertEquals($this->legolas->getPositionX(), 20);	
-		$this->assertEquals($this->legolas->getPositionY(), 30);	
-
-	}
-	function testMoveACaracterToAnotherPosition() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,45,78);
-		
-		$this->assertEquals($this->legolas->getPositionX(), 45);	
-		$this->assertEquals($this->legolas->getPositionY(), 78);	
-
-	}
-	
-	/**
-	 * @expectedException Game\CharacterOutSideBoardException
-	 */
-	
-	function testMoveACaracterOutsideTheBoard() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,150,22230);
-	
-	}
-	
-	/**
-   * @expectedException Game\CharacterOutSideBoardException
-   */
-	
-	function testAfterInvalidMovementCharacterAreInTheSamePlace() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$originalPositionX = $this->legolas->getPositionX();
-		$originalPositionY = $this->legolas->getPositionY();
-
-		$this->helmsDeep->moveCharacter($this->legolas,-20,30);
-		
-		$this->assertEquals($this->legolas->getPositionX(), $originalPositionX);	
-		$this->assertEquals($this->legolas->getPositionY() , $originalPositionY);
-	}
-
 
 	
 	/**
    * @expectedException Game\CharacterIsNotInGame
-   */
+   *\/
 	
 	function testCantMoveCharacterThatIsNotInTheGame() {
 		
@@ -147,55 +128,6 @@ class GameTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/**
-	 * @expectedException Game\InvalidCoords
-	 */
-	
-	function testMoveACaracterToInvalidTextCoords() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,'x','y');
-	
-	}
-
-	
-	function testMoveACaracterToInvalidNumCoords() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,'22','33');
-
-		$this->assertEquals($this->legolas->getPositionX(), 22);	
-		$this->assertEquals($this->legolas->getPositionY(), 33);	
-	
-	}
-
-	/**
-	 * @expectedException Game\InvalidCoords
-	 */
-
-	function testMoveACaracterToInvalidNumStringCoords() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,'22.3','33.3');
-
-	}
-
-	/**
-	 * @expectedException Game\InvalidCoords
-	 */
-	
-	function testMoveACaracterToInvalidFloatCoords() {
-		
-		$this->helmsDeep->addCharacter($this->legolas);
-
-		$this->helmsDeep->moveCharacter($this->legolas,23.3,23.2);
-	
-	}
-
-
 	function testAddNewCharacterToGameWithAKey() {
 		
 		$keyAragorn = "keyAragorn";
@@ -213,6 +145,6 @@ class GameTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-
+	*/
 
 }

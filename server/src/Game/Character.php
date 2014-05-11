@@ -11,6 +11,10 @@ class Character {
 
 	private $color;
 
+	private $lifePoints;
+	private $attackPoints;
+	private $defensePoints;
+
 	public function getName() {
 		if (!$this->name) {
 			throw new CharacterDontHaveName();
@@ -54,6 +58,33 @@ class Character {
 	public function setColor($color) {
 		$this->color = $color;
 	}
+
+	public function getLifePoints() {
+		return $this->lifePoints;
+	}
+	public function setLifePoints($lifePoints) {
+		$this->lifePoints = $lifePoints;
+	}
+
+	public function getAttackPoints() {
+		return $this->attackPoints;
+	}
+	public function setAttackPoints($attackPoints) {
+		$this->attackPoints = $attackPoints;
+	}
+	public function getDefensePoints() {
+		return $this->defensePoints;
+	}
+	public function setDefensePoints($defensePoints) {
+		$this->defensePoints = $defensePoints;
+	}
+	
+	public function receiveDamage($damage) {
+		$this->lifePoints = $this->lifePoints - $damage;
+	}
+	
+
+
 }
 
 

@@ -16,7 +16,6 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 		$y = 45;
 
 		$result = $this->movementValidator->validateMovement($x, $y);
-		//var_dump($result);
 
 		$this->assertTrue($result);	
 
@@ -42,16 +41,10 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 
 	}
 
-	function testValidateNegativePosition() {
-		
-		$x = -78;
-		$y = 47;
-
-		$result = $this->movementValidator->validateMovement($x, $y);
-		
-		$this->assertFalse($result);	
-
-	}
+	
+	/**
+   * @expectedException Game\CharacterOutSideBoardException
+   */
 
 	function testValidateOutsidePosition() {
 		
@@ -60,10 +53,25 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 
 		$result = $this->movementValidator->validateMovement($x, $y);
 		
-		$this->assertFalse($result);	
-
 	}
 
+
+	/**
+	 * @expectedException Game\InvalidCoords
+	 */
+	function testValidateFloatPosition() {
+		
+		$x = 78.2;
+		$y = 47.3;
+
+		$result = $this->movementValidator->validateMovement($x, $y);
+		
+	}
+
+	
+	/**
+   * @expectedException Game\InvalidCoords
+   */
 
 	function testValidateOtherNegativePosition() {
 		
@@ -72,8 +80,6 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 
 		$result = $this->movementValidator->validateMovement($x, $y);
 		
-		$this->assertFalse($result);	
-
 	}
 
 	/**
@@ -87,8 +93,10 @@ class MovementValidatorTestCase extends PHPUnit_Framework_TestCase {
 
 		$result = $this->movementValidator->validateMovement($x, $y);
 		
-		$this->assertTrue($result);	
 
 	}
+
+
+
 
 }

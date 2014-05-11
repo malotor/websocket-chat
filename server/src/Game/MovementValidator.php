@@ -27,7 +27,11 @@ class MovementValidator {
 			throw new InvalidCoords();
 		}
 		
-		return $this->validatePosition($x, $y);
+		if (!$this->validatePosition($x, $y)) {
+			throw new CharacterOutSideBoardException();
+		}
+
+		return true;
 
 	}
 
@@ -36,7 +40,8 @@ class MovementValidator {
 		if (is_numeric($cord)) {
 			$cord += 0;
 			if (gettype($cord)=='integer') {
-				return true;
+				if ($cord >0 ) return true;
+				return false;
 			}
 			return false;
 			
@@ -50,12 +55,18 @@ class MovementValidator {
 		if ((($x > $this->limitX) || ( $x < 0)) || (($y > $this->limitY) || ($y < 0))) {
 			return false;
 		}
-
-		return true;
-		
+		return true;	
 	}
 
+}
 
+
+class CharacterOutSideBoardException extends \Exception {
+   public function __construct($message = null, $code = 0, Exception $previous = null)
+   {
+   		$message = 'The character couldn´t be outside the board';
+      parent::__construct($message, $code, $previous);
+   }
 }
 
 

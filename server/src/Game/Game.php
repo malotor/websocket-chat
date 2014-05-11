@@ -4,16 +4,30 @@ namespace Game;
 
 class Game  {
 
-	private $board;
+
 	private $characters;
-	private $movementValidator;
+	private $movementManager;
+	private $attackManager;
+
 	protected $characterFactory;
 
-  public function __construct($movementValidator) {
-		$this->movementValidator = $movementValidator;
+  public function __construct($movementManager, $attackManager, $characterFactory) {
+		
+		$this->movementManager = $movementManager;
+		$this->attackManager = $attackManager;
+		$this->characterFactory = $characterFactory;
+
 		$this->characters = new \SplObjectStorage();
 	}
-	
+	public function addCharacter() {
+		$character = new Character();
+		$this->characters->attach($character);
+
+	}
+	public function countCharacters() {
+		return count($this->characters);
+	}
+	/*
 	function setCharacterFactory($characterFactory) {
 		$this->characterFactory = $characterFactory;
 	}
@@ -62,17 +76,9 @@ class Game  {
 		   }
 		}
 	}
-
+	*/
 }
 
-
-class CharacterOutSideBoardException extends \Exception {
-   public function __construct($message = null, $code = 0, Exception $previous = null)
-   {
-   		$message = 'The character couldn´t be outside the board';
-      parent::__construct($message, $code, $previous);
-   }
-}
 
 class CharacterIsNotInGame extends \Exception {
    public function __construct($message = null, $code = 0, Exception $previous = null)
