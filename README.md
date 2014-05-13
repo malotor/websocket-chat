@@ -1,4 +1,4 @@
 websocket-game
 ==============
 
-A Game aplication using WebSockets and Ratchet
+A RPG using WebSockets and Ratchet
