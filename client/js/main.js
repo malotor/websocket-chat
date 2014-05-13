@@ -1,4 +1,4 @@
-var clientID = null;
+//var clientID = null;
 
 
 var app = {
@@ -15,7 +15,7 @@ var UI = {
 		var charname = $("#character_name").val();
 
 		var message = {
-			name : charname,
+			id: characterId,
 			message : msg
 		};
 
@@ -30,9 +30,10 @@ var UI = {
 		var y = $("#posY").val();
 
 		var message = {
-			name : charname,
+			id: characterId,
 			posx : x,
-			posy : y
+			posy : y,
+
 		};
 
 		socket.send( 'move', message );

@@ -11,43 +11,42 @@ class Game  {
 
 	protected $characterFactory;
 
-  public function __construct($movementManager, $attackManager, $characterFactory) {
+  public function __construct($movementValidator, $attackManager) {
 		
-		$this->movementManager = $movementManager;
+		$this->movementValidator = $movementValidator;
 		$this->attackManager = $attackManager;
-		$this->characterFactory = $characterFactory;
 
 		$this->characters = new \SplObjectStorage();
 	}
-	public function addCharacter() {
-		$character = new Character();
-		$this->characters->attach($character);
 
+	public function createCharacter($characterData) {
+		$character = CharacterFactory::create($characterData);
+		$this->characters->attach($character, $characterData['id']);
 	}
+
 	public function countCharacters() {
 		return count($this->characters);
 	}
-	/*
-	function setCharacterFactory($characterFactory) {
-		$this->characterFactory = $characterFactory;
+
+	public function getCharacter($key) {
+		foreach($this->characters as $character) {
+		   if ($this->characters[$character] == $key) {
+		   	return $character;
+		   }
+		}
+		return false;
 	}
 	
-	function addCharacter($character, $key=null) {
-		
-		$this->characters->attach($character, $key);
-	}
-
-	function hasCharacter($character) {
-		
-		return $this->characters->contains($character);
-	}
 	
-	function moveCharacter($character, $x, $y) {
-
+	function moveCharacter($characterId, $x, $y) {
+		/*
 		if (!$this->hasCharacter($character)) {
 			throw new CharacterIsNotInGame();
 		} 
-
+		*/
+		
+		$character = $this->getCharacter($characterId);
+		
 		if (!$this->movementValidator->validateMovement($x, $y)) {
 			throw new CharacterOutSideBoardException();
 		}
@@ -56,27 +55,11 @@ class Game  {
 	
 	}
 
-
-	function getCharacter($name) {
-		foreach($this->characters as $character) {
-		   if ($character->getName() == $name) {
-		   	return $character;
-		   }
-		}
-	}
-
 	function getCharacters() {
 		return $this->characters;
 	}
 
-	function getCharacterByKey($key) {
-		foreach($this->characters as $character) {
-		   if ($this->characters[$character] == $key) {
-		   	return $character;
-		   }
-		}
-	}
-	*/
+	
 }
 
 

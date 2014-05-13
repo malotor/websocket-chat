@@ -2,6 +2,11 @@
 
 namespace GameServer;
 
+
+function rand_color() {
+    return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+}
+
 class CreateCharacterCommand extends Command implements iCommand  {
 
 	const RESPONSE_STRING = "%s has been created and added to the game"; 
@@ -12,14 +17,22 @@ class CreateCharacterCommand extends Command implements iCommand  {
 
 	public function execute() {
 
-		$character = new \Game\Character();
-		$character->setName($this->characterData['name']);
-		$character->setColor($this->characterData['color']);
-		$character->setPosition($this->characterData['x'], $this->characterData['y']);
-		
-	
+    $id = md5(uniqid(rand(), true));
+    //Generates inital random position iside board
+		//TODO get limits fron board
+		$x = rand(1,10);
+		$y = rand(1,10);
 
-		$this->game->addCharacter($character, $this->characterData['key']);
+		$this->characterData['id'] = $id;
+		$this->characterData['color'] = rand_color();
+		$this->characterData['x'] = $x;
+		$this->characterData['y'] = $y;
+		$this->characterData['lifePoints'] = rand(1, 20);
+		$this->characterData['defensePoints'] = rand(1, 10);;
+		$this->characterData['attackPoints'] = rand(1, 10);;
+
+
+		$this->game->createCharacter($this->characterData, $id);
 
 		$message = array(
 			'event' => 'character_created',
@@ -28,7 +41,7 @@ class CreateCharacterCommand extends Command implements iCommand  {
 				'name' => $this->characterData['name'],
 				'x' => $this->characterData['x'],
 				'y' => $this->characterData['y'],
-				'key' => $this->characterData['key'],
+				'id' => $this->characterData['id'],
 				'color' => $this->characterData['color'],
 			)
 		);

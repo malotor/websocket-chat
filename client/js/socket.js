@@ -1,6 +1,6 @@
 
 var socket = new FancyWebSocket('ws://awesome.dev:8080');
-
+var characterId = null;
 // bind to server events
 socket.bind('close', function(data){
   chat.log("Disconected - status: " + socket.status());
@@ -23,12 +23,16 @@ socket.bind('user_connected', function(data){
 });
 
 // bind to server events
-socket.bind('user_created', function(data){
+socket.bind('character_created', function(data){
 
 	//console.log("add piece:");
 	//console.log(data);
+
+	characterId = data.id;
+
+
 	
-	var pieceA = new piece(data.name, data.posx, data.posy ,data.color);
+	var pieceA = new piece(data.name, data.x, data.y ,data.color);
   board.addPiece(pieceA);
   board.drawPieces();
 
@@ -61,8 +65,6 @@ socket.bind('character_moves', function(data){
 	board.drawPieces();
 	
 });
-
-
 
 
 // bind to server events

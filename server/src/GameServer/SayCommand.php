@@ -9,25 +9,26 @@ class SayCommand extends Command implements iCommand {
 
 	const RESPONSE_STRING = "%s says: %s"; 
 
-	public function __construct ($characterName, $msg) {
+	public function __construct ($characterId, $msg) {
 		$this->msg = $msg;
-		$this->characterName = $characterName;
+		$this->characterId = $characterId;
 	}
 
 	public function execute() {
 		
-		$character = $this->game->getCharacter($this->characterName);
+		$character = $this->game->getCharacter($this->characterId);
 
 		$message = array(
 			'event' => 'character_says',
 			'type' => 'broadcast',
 			'data' => array(
-				'user' => $this->characterName,
+				'user' => $character->getName(),
 				'msg' => $this->msg,
 				'color' => $character->getColor(),
 			)
 		);
-		//return vsprintf(self::RESPONSE_STRING,array($this->characterName, $this->msg));
+		
 		return $message;
+	
 	}	
 }

@@ -26,7 +26,7 @@ var board = {
 		this.cellWidth = this.side/this.cells;
 
 		this.boardContainer = Raphael(contenedor);
-		var image_1 = this.boardContainer.image('assets/images/map.jpg', 0, 0, 400, 400);
+		//var image_1 = this.boardContainer.image('assets/images/map.jpg', 0, 0, 400, 400);
 		this.drawBoard();
 		
   },

@@ -37,7 +37,7 @@ var FancyWebSocket = function(url){
     var json = JSON.parse(evt.data);
     //chat.log("Event received: " + json.event);
     console.log(json.event);
-    //console.log(json.data);
+    console.log(json.data);
     dispatch(json.event, json.data);
   };
  

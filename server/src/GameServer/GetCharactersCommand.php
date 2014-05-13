@@ -23,7 +23,7 @@ class GetCharactersCommand extends Command implements iCommand  {
     	$characterList[] = $charData;	
     }
 
-    var_dump($characterList);
+    //var_dump($characterList);
 
 		$message = array(
 			'event' => 'characters_list',

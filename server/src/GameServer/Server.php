@@ -14,18 +14,21 @@ class Server implements MessageComponentInterface {
     
     protected $clients;
 
-    private $game;
-    private $board;
-    
+    private $game;    
 
     public function __construct() {
 
         $this->clients = new \SplObjectStorage;
 
+        $dice = new Game\Dice(6,1);
+        $attackCalculator = new Game\attackCalculator();
+        $attackManager = new Game\attackManager($attackCalculator, $dice);
+
         //Inits Game
         $board = new Game\Board(10,10);
         $movementValidator = new Game\MovementValidator($board);
-        $this->game = new Game\Game($movementValidator);
+
+        $this->game = new Game\Game($movementValidator, $attackManager);
         
         $file = "./commandMap.yml";
 
@@ -38,9 +41,6 @@ class Server implements MessageComponentInterface {
         // create a log channel
         $this->log = new Logger('wsgame');        
         $this->log->pushHandler(new StreamHandler('./log/wsgame.log', Logger::DEBUG));
-
-
-
 
     }
 
