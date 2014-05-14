@@ -46,6 +46,8 @@ class Server implements MessageComponentInterface {
 
     public function onOpen(ConnectionInterface $conn) {
         
+
+
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
         
@@ -65,9 +67,11 @@ class Server implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         
-        $this->log->addDebug("$msg (Connection: {$from->resourceId})\n");
+        $this->log->addDebug("{$from->resourceId}: $msg\n");
 
         try {
+
+            $this->CommandProcessor->setConnection($from);
 
             $response = $this->CommandProcessor->execCommand($msg);
             
@@ -110,6 +114,22 @@ class Server implements MessageComponentInterface {
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
 
+        //$id = md5(uniqid(rand(), true));
+        $id = $conn->resourceId;
+
+        $character = $this->game->getCharacter($id);
+
+        $this->game->removeCharacter($character);
+
+        $message = array(
+            'event' => 'removed_character',
+            'data' => array(
+                'msg' => $character->getName() + ' has been removed', 
+            ),
+        );
+        $jsonMessage = json_encode($message);
+        $this->sendMessageToClient($conn, $jsonMessage);
+
         $this->log->addDebug("Connection {$conn->resourceId} has disconnected\n");
     }
 
@@ -122,7 +142,7 @@ class Server implements MessageComponentInterface {
                 ),
             );
         $jsonMessage = json_encode($message);
-        $this->sendMessageToClient($conn, $jsonMessage);
+        $this->sendMessageToAll($conn, $jsonMessage);
         //$conn->close();
     }
 

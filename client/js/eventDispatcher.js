@@ -1,22 +1,27 @@
-/* Ismael Celis 2010
-Simplified WebSocket events dispatcher (no channels, no users)
- 
-var socket = new FancyWebSocket();
- 
-// bind to server events
-socket.bind('some_event', function(data){
-  alert(data.name + ' says: ' + data.message)
-});
- 
-// broadcast events to all connected users
-socket.send( 'some_event', {name: 'ismael', message : 'Hello world'} );
-*/
- 
-var FancyWebSocket = function(url){
+var EventDispatcher = function(url){
+
   var conn = new WebSocket(url);
  
   var callbacks = {};
  
+  // dispatch to the right handlers
+  conn.onmessage = function(evt){
+    var json = JSON.parse(evt.data);
+    //chat.log("Event received: " + json.event);
+    console.log(json.event);
+    console.log(json.data);
+    dispatch(json.event, json.data);
+  };
+ 
+  conn.onclose = function(evt){
+    dispatch('close',null)
+  }
+  conn.onopen = function(evt){
+    //Save the connectionid
+    //characterId = this
+    dispatch('open',null)
+  }
+
   this.bind = function(event_name, callback){
     callbacks[event_name] = callbacks[event_name] || [];
     callbacks[event_name].push(callback);
@@ -26,23 +31,10 @@ var FancyWebSocket = function(url){
   this.send = function(event_name, event_data){
     var payload = JSON.stringify({event:event_name, data: event_data});
     //chat.log("Sended: " + payload);
-
-    conn.send( payload ); // <= send JSON data to socket server
+    conn.send( payload );
     return this;
   };
- 
-  // dispatch to the right handlers
-  conn.onmessage = function(evt){
-    
-    var json = JSON.parse(evt.data);
-    //chat.log("Event received: " + json.event);
-    console.log(json.event);
-    console.log(json.data);
-    dispatch(json.event, json.data);
-  };
- 
-  conn.onclose = function(evt){dispatch('close',null)}
-  conn.onopen = function(evt){dispatch('open',null)}
+
  
   var dispatch = function(event_name, message){
     var chain = callbacks[event_name];
@@ -55,4 +47,9 @@ var FancyWebSocket = function(url){
   this.status = function() {
     return conn.readyState;
   }
+
+  this.close = function() {
+    conn.close();
+  }
+  
 };

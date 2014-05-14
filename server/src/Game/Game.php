@@ -39,11 +39,6 @@ class Game  {
 	
 	
 	function moveCharacter($characterId, $x, $y) {
-		/*
-		if (!$this->hasCharacter($character)) {
-			throw new CharacterIsNotInGame();
-		} 
-		*/
 		
 		$character = $this->getCharacter($characterId);
 		
@@ -59,7 +54,10 @@ class Game  {
 		return $this->characters;
 	}
 
-	
+	function removeCharacter($character) {
+		return $this->characters->detach($character);
+	}
+
 }
 
 

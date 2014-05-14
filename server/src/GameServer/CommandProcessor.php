@@ -19,6 +19,10 @@ class CommandProcessor  {
 		$this->game = $game;
 	}
 
+	public function setConnection($conn) {
+		$this->connection = $conn;
+	}
+
 	public function setCommandMapper($commandMapper) {
 		$this->commandMapper = $commandMapper;
 	}
@@ -35,6 +39,7 @@ class CommandProcessor  {
 		$ref = new \ReflectionClass($commandClassName);
 		$commandClass = $ref->newInstanceArgs($args);
     $commandClass->setGame($this->game);
+		$commandClass->setConnection($this->connection);
 		
 		return $commandClass->execute();
 		

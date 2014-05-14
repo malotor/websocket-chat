@@ -71,34 +71,50 @@
 					    <label class="sr-only" for="">Y</label>
 					    <input type="text" class="form-control" id="posY" placeholder="Y" />
 					  </div>
-					  <button class="btn btn-default" onclick="UI.move(); return false;">Move</button>
+					  <button class="btn btn-default" onclick="app.move(); return false;">Move</button>
 					</form>
 
 		    </div>
   			<div class="col-md-6">
-  				
+  				<h2>User list</h2>
+  				<div id="userList">
+
+  				</div>
+
 
 					<h2>Chat</h2>
 		    	<div class="panel panel-default">
 		    		<div id="chat" class="panel-body">
-					    
+					    <div id="chatScroll">
+					    </div>
 					  </div>
 					</div>
-		    	<form class="form-inline" role="form">
+		    	<form class="form" role="form">
 
 						<input id="character_name" type="hidden" value="<?=$_COOKIE['character_name']?>" >
 
 				  	<div class="form-group">
-					    <label class="sr-only" for="exampleInputEmail2">Message</label>
-					    <input type="text" class="form-control" id="msg" placeholder="Enter message" onkeypress="onkey(event)">
+					    <div class="row">
+  							<div class="col-xs-10">
+  								<input type="text" class="form-control" id="msg" placeholder="Enter message" autocomplete="off">
+  							</div>
+  							<div class="col-xs-2">
+  								<button class="btn btn-default" onclick="app.say(); return false;">Send</button>
+  							</div>
+  						</div>
+					    
+					  	
 					  </div>
 
-					  <button class="btn btn-default" onclick="UI.say(); return false;">Send</button>
-					  <button class="btn btn-default" onclick="server.quit(); return false;">Quit</button>
-						<button class="btn btn-default" onclick="server.reconnect(); return false;">Reconnect</button>
-
+					 	
 					</form>
 
+					<h2>User list</h2>
+					<div class="form-group">
+					  <button class="btn btn-default" onclick="app.clearLog(); return false;">Clear</button>
+					  <button class="btn btn-default" onclick="app.quit(); return false;">Quit</button>
+						<button class="btn btn-default" onclick="app.reconnect(); return false;">Reconnect</button>
+					</div>
 				 </div>
 		  </div>
 		</div>

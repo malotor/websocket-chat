@@ -9,14 +9,14 @@ class SayCommand extends Command implements iCommand {
 
 	const RESPONSE_STRING = "%s says: %s"; 
 
-	public function __construct ($characterId, $msg) {
+	public function __construct ($msg) {
 		$this->msg = $msg;
-		$this->characterId = $characterId;
 	}
 
 	public function execute() {
 		
-		$character = $this->game->getCharacter($this->characterId);
+		$id = $this->connection->resourceId;
+		$character = $this->game->getCharacter($id);
 
 		$message = array(
 			'event' => 'character_says',

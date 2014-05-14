@@ -1,25 +1,23 @@
-//var clientID = null;
-
+//Stores the character ID
+var characterId = null;
 
 var app = {
-
 	init: function() {
 		board.init('board');
-	}
-};
-
-var UI = {
+	},
+	
 	say: function () {
 
 		var msg = $("#msg").val();
 		var charname = $("#character_name").val();
+		
+		$("#msg").val("");
 
 		var message = {
-			id: characterId,
 			message : msg
 		};
 
-		socket.send( 'say', message );
+		server.send( 'say', message );
 
 	},
 
@@ -30,40 +28,41 @@ var UI = {
 		var y = $("#posY").val();
 
 		var message = {
-			id: characterId,
 			posx : x,
 			posy : y,
-
 		};
 
-		socket.send( 'move', message );
-	}
+		server.send( 'move', message );
+	}, 
 
-};
-
-var server = {
 	createCharacter: function () {
-		messagesend = {
+		var message = {
 			attributes : {
 				name : $('#character_name').val()
 			}
 		};
 		
-		socket.send( 'create', messagesend );
+		server.send( 'create', message );
 	},
 
 	getCharacters: function () {		
-		socket.send( 'getCharacters', {} );
+		server.send( 'getCharacters', {} );
 	},
 
 	quit: function (){
-
+		if (server != null) {
+			chat.log("Goodbye!");
+			server.close();
+		}
 	},
 
 	reconnect: function () {
+		this.quit();
+	},
+
+	clearLog: function () {
+		chat.clear();
 	},
 
 };
 
-
-function onkey(event){ if(event.keyCode==13){ UI.say(); } }

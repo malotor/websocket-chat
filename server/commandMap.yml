@@ -2,3 +2,4 @@ say : GameServer\SayCommand
 move : GameServer\MoveCommand
 create : GameServer\CreateCharacterCommand
 getCharacters : GameServer\GetCharactersCommand
+remove : GameServer\RemoveCharacterCommand

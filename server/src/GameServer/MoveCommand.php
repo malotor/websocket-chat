@@ -7,9 +7,8 @@ class MoveCommand extends Command implements iCommand  {
 	
 	const RESPONSE_STRING = "%s move to (%d, %d)"; 
 
-	public function __construct ($characterId, $x, $y) {
+	public function __construct ($x, $y) {
 		
-		$this->characterId = $characterId;
 		$this->x = $x;
 		$this->y = $y;
 		
@@ -18,10 +17,10 @@ class MoveCommand extends Command implements iCommand  {
 	public function execute() {
 
 		//Move the character
+		$id = $this->connection->resourceId;
+		$character = $this->game->getCharacter($id);
 		
-		$character = $this->game->getCharacter($this->characterId);
-		
-		$this->game->moveCharacter($this->characterId ,$this->x,$this->y);
+		$this->game->moveCharacter($id ,$this->x,$this->y);
 
 		$message = array(
 			'event' => 'character_moves',

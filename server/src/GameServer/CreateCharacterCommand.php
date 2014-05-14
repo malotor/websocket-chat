@@ -17,7 +17,8 @@ class CreateCharacterCommand extends Command implements iCommand  {
 
 	public function execute() {
 
-    $id = md5(uniqid(rand(), true));
+    //$id = md5(uniqid(rand(), true));
+    $id = $this->connection->resourceId;
     //Generates inital random position iside board
 		//TODO get limits fron board
 		$x = rand(1,10);
