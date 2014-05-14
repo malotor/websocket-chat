@@ -3,7 +3,11 @@
 namespace Game;
 
 //interface validator 
-
+function numberIsPositiveInteger($x) {
+	$x += 0;
+	if ((gettype($x)=='integer') && ($x > 0 )) return true;
+	return false;
+}
 
 class MovementValidator {
 	
@@ -37,25 +41,18 @@ class MovementValidator {
 
 	
 	protected function validateCord($cord) {
-		if (is_numeric($cord)) {
-			$cord += 0;
-			if (gettype($cord)=='integer') {
-				if ($cord >0 ) return true;
-				return false;
-			}
-			return false;
-			
-		} 
-		return false;
+		
+		if (!is_numeric($cord)) return false;
+
+		if (!numberIsPositiveInteger($cord)) return false;
+
+		return true;
 		
 	}
-
+	
 	protected function validatePosition($x, $y) {
-		
-		if ((($x > $this->limitX) || ( $x < 0)) || (($y > $this->limitY) || ($y < 0))) {
-			return false;
-		}
-		return true;	
+		return  (($x < $this->limitX ) && ( $y < $this->limitY ));
+
 	}
 
 }
