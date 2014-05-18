@@ -23,10 +23,10 @@ class SayCommandTest extends PHPUnit_Framework_TestCase {
 
 	function testACharacterSayHello() {
 		
-		$character = "Aragon";
 		$msg = "Hello";
 
-		$command = new GameServer\SayCommand($character,$msg);
+		$command = new GameServer\Commands\SayCommand($msg);
+
 		$response = $command->execute();
 		
 		$responseExpected = vsprintf($command::RESPONSE_STRING,array($character,$msg));

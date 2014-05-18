@@ -1,6 +1,6 @@
 <?php
 
-namespace GameServer;
+namespace GameServer\Commands;
 
 class GetCharactersCommand extends Command implements iCommand  {
 

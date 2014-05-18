@@ -52,7 +52,6 @@ class MovementValidator {
 	
 	protected function validatePosition($x, $y) {
 		return  (($x < $this->limitX ) && ( $y < $this->limitY ));
-
 	}
 
 }

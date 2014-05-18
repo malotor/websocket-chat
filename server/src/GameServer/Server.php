@@ -16,42 +16,52 @@ class Server implements MessageComponentInterface {
 
     private $game;    
 
+    const LOG_CHANEL = 'wsgame';
+    const LOG_FILE = './log/wsgame.log';
+    const COMMAND_MAP_FILE = './commandMap.yml';
+
+    const DICE_SIDE = 6;
+    const DICE_NUMBER = 1;
+
+    const BOARD_VERTICAL_LENGHT = 10;
+    const BOARD_HORIZONTAL_LENGHT = 10;
+    
     public function __construct() {
 
         $this->clients = new \SplObjectStorage;
 
-        $dice = new Game\Dice(6,1);
+        $dice = new Game\Dice(self::DICE_SIDE, self::DICE_NUMBER);
         $attackCalculator = new Game\attackCalculator();
         $attackManager = new Game\attackManager($attackCalculator, $dice);
 
         //Inits Game
-        $board = new Game\Board(10,10);
+        $board = new Game\Board(self::BOARD_HORIZONTAL_LENGHT, self::BOARD_VERTICAL_LENGHT);
         $movementValidator = new Game\MovementValidator($board);
 
         $this->game = new Game\Game($movementValidator, $attackManager);
         
-        $file = "./commandMap.yml";
-
-        $commandMapper = new CommandMapper($file);
+        $commandMapper = new CommandMapper(self::COMMAND_MAP_FILE);
             
         $this->CommandProcessor = new CommandProcessor();
         $this->CommandProcessor->setGame($this->game);
         $this->CommandProcessor->setCommandMapper($commandMapper);
 
         // create a log channel
-        $this->log = new Logger('wsgame');        
-        $this->log->pushHandler(new StreamHandler('./log/wsgame.log', Logger::DEBUG));
+        $this->logger = new Logger(self::LOG_CHANEL);        
+        $this->logger->pushHandler(new StreamHandler(self::LOG_FILE, Logger::DEBUG));
 
+    }
+
+    protected function log($msg) {
+        $this->logger->addDebug($msg . "\n");
     }
 
     public function onOpen(ConnectionInterface $conn) {
         
-
-
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
         
-        $this->log->addDebug("New connection! ({$conn->resourceId})\n");
+        $this->log("New connection! ({$conn->resourceId})");
         
         $message = array(
             'event' => 'user_connected',
@@ -67,7 +77,7 @@ class Server implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         
-        $this->log->addDebug("{$from->resourceId}: $msg\n");
+        $this->log("{$from->resourceId}: $msg");
 
         try {
 
@@ -96,7 +106,7 @@ class Server implements MessageComponentInterface {
             
 
         } catch (Exception $e) {
-            $this->log->addDebug('Excepción capturada: ' . $e->getMessage());
+            $this->log('Excepción capturada: ' . $e->getMessage());
             $message = array(
             'event' => 'server_message',
                 'data' => array(
@@ -130,11 +140,11 @@ class Server implements MessageComponentInterface {
         $jsonMessage = json_encode($message);
         $this->sendMessageToClient($conn, $jsonMessage);
 
-        $this->log->addDebug("Connection {$conn->resourceId} has disconnected\n");
+        $this->log("Connection {$conn->resourceId} has disconnected");
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        $this->log->addDebug("An error has occurred: {$e->getMessage()}\n");
+        $this->log("An error has occurred: {$e->getMessage()}");
         $message = array(
             'event' => 'server_message',
                 'data' => array(
@@ -143,30 +153,22 @@ class Server implements MessageComponentInterface {
             );
         $jsonMessage = json_encode($message);
         $this->sendMessageToAll($conn, $jsonMessage);
-        //$conn->close();
     }
 
 
     protected function sendMessageToAll(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;
-        $this->log->addDebug(sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's'));
+        
+        $this->log(sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n" , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's'));
 
         foreach ($this->clients as $client) {
-            //if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
-            //}
+            $client->send($msg);
         }
 
     }
 
     protected function sendMessageToClient(ConnectionInterface $from, $msg) {
-      
         $from->send($msg);
-        
     }
-
-    
 
 }

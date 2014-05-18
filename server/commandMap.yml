@@ -1,5 +1,4 @@
-say : GameServer\SayCommand
-move : GameServer\MoveCommand
-create : GameServer\CreateCharacterCommand
-getCharacters : GameServer\GetCharactersCommand
-remove : GameServer\RemoveCharacterCommand
+say : GameServer\Commands\SayCommand
+move : GameServer\Commands\MoveCommand
+create : GameServer\Commands\CreateCharacterCommand
+getCharacters : GameServer\Commands\GetCharactersCommand
