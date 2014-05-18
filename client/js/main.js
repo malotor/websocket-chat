@@ -1,7 +1,7 @@
-//Stores the character ID
-var characterId = null;
-
 var app = {
+
+	characters : [],
+
 	init: function() {
 		board.init('board');
 	},

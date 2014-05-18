@@ -36,6 +36,7 @@
     <script src="js/eventDispatcher.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/socket.js"></script>
+    <script src="js/characterList.js"></script>
     <script src="js/main.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -109,7 +110,7 @@
 					 	
 					</form>
 
-					<h2>User list</h2>
+					
 					<div class="form-group">
 					  <button class="btn btn-default" onclick="app.clearLog(); return false;">Clear</button>
 					  <button class="btn btn-default" onclick="app.quit(); return false;">Quit</button>

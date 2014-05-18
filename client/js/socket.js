@@ -79,6 +79,7 @@ server.bind('characters_list', function(data){
 	data.characters.forEach(function(character) {
 	  var pieceA = new piece(character.name ,character.posx, character.posy,character.color);
   	board.addPiece(pieceA);
+  	characterList.addCharater(character);
 	});
 
 	board.drawPieces();
